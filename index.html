@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)https://localhost:44350/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EquipmentWeb</title>
+    <link rel="stylesheet" href="./index_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./index_files/site.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="https://localhost:44350/Home/Index">EquipmentWeb</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:44350/Home/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="https://localhost:44350/Home/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            
+
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR Code</title>
+    <style>
+        /* General Page Styling */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #f0f4c3);
+            color: #333;
+        }
+
+        .container {
+            flex-grow: 1; /* تأكد من أن المحتوى يأخذ المساحة المتبقية */
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #00796b;
+        }
+
+        /* Video Styling */
+        #qr-video {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #00796b;
+        }
+
+        /* QR Result Display */
+        #qr-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f2f1;
+            border: 1px solid #00796b;
+            border-radius: 8px;
+            display: none;
+        }
+
+            #qr-result p {
+                margin: 5px 0;
+            }
+
+        /* Form Styling */
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #b0bec5;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #004d40;
+            }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #00796b;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0; /* تقليل المسافة الرأسية */
+            font-size: 14px;
+            border-top: 3px solid #004d40;
+            position: relative; /* جعل الفوتر في أسفل الصفحة بشكل طبيعي */
+            margin-top: auto; /* يجعل الفوتر يتحرك إلى الأسفل */
+        }
+
+            .footer a {
+                color: #b2dfdb;
+                text-decoration: none;
+            }
+
+                .footer a:hover {
+                    color: #ffffff;
+                    text-decoration: underline;
+                }
+    </style>
+
+
+    <div class="container">
+        <h2>Scan QR Code</h2>
+
+        <!-- Video Element to Show Camera Feed -->
+        <video id="qr-video" autoplay=""></video>
+        <canvas id="qr-canvas" style="display:none;" width="640" height="480"></canvas>
+
+        <!-- Display Extracted QR Code Data -->
+        <div id="qr-result">
+            <p>Vehicle ID: <span id="vehicle-id"></span></p>
+            <p>Section No: <span id="section-no"></span></p>
+        </div>
+
+        <!-- Attendance Form -->
+        <form id="attendance-form" method="post" action="https://localhost:44350/SubmitAttendance">
+            <input type="hidden" id="vehicle-id-input" name="VehicleID">
+            <input type="hidden" id="section-no-input" name="Section_No">
+
+            <label for="attendance-date">Attendance Date:</label>
+            <input type="date" id="attendance-date" name="AttendanceDate" required="">
+
+            <label for="shift">Shift:</label>
+            <select id="shift" name="Shift" required="">
+                <option value="Morning">Morning</option>
+                <option value="Evening">Evening</option>
+            </select>
+
+            <label for="first-entry-time">First Entry Time:</label>
+            <input type="time" id="first-entry-time" name="FirstEntryTime">
+
+            <label for="first-exit-time">First Exit Time:</label>
+            <input type="time" id="first-exit-time" name="FirstExitTime">
+
+            <label for="second-entry-time">Second Entry Time:</label>
+            <input type="time" id="second-entry-time" name="SecondEntryTime">
+
+            <label for="second-exit-time">Second Exit Time:</label>
+            <input type="time" id="second-exit-time" name="SecondExitTime">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2025 - Equipment - <a href="https://localhost:44350/Privacy">Privacy</a>
+    </footer>
+
+    <!-- QR Scanning Script -->
+    <script src="./index_files/jsQR.js.تنزيل"></script>
+    <script>
+        const video = document.getElementById('qr-video');
+        const canvas = document.getElementById('qr-canvas');
+        const qrResult = document.getElementById('qr-result');
+        const vehicleIdSpan = document.getElementById('vehicle-id');
+        const sectionNoSpan = document.getElementById('section-no');
+        const vehicleIdInput = document.getElementById('vehicle-id-input');
+        const sectionNoInput = document.getElementById('section-no-input');
+
+        // Request permission to access the camera
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                requestAnimationFrame(scanQRCode);
+            })
+            .catch(err => console.error("Error accessing camera: ", err));
+
+        // QR Code Scanning Function
+        function scanQRCode() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    const data = JSON.parse(code.data);
+                    vehicleIdSpan.textContent = data.VehicleID;
+                    sectionNoSpan.textContent = data.Section_No;
+                    vehicleIdInput.value = data.VehicleID;
+                    sectionNoInput.value = data.Section_No;
+                    qrResult.style.display = 'block';
+                }
+            }
+            requestAnimationFrame(scanQRCode);
+        }
+    </script>
+
+
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 2025 - EquipmentWeb - <a href="https://localhost:44350/Home/Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="./index_files/jquery.min.js.تنزيل"></script>
+    <script src="./index_files/bootstrap.bundle.min.js.تنزيل"></script>
+    <script src="./index_files/site.js.تنزيل"></script>
+    
+
+
+</body></html>
