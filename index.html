@@ -194,6 +194,7 @@
                 if (code) {
                     try {
                         const data = JSON.parse(code.data);
+                        console.log(data); // تحقق من البيانات المستخرجة
                         vehicleIdSpan.textContent = data.VehicleID;
                         sectionNoSpan.textContent = data.Section_No;
                         vehicleIdInput.value = data.VehicleID;
