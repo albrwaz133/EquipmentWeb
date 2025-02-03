@@ -137,6 +137,18 @@
                 <option value="Evening">Evening</option>
             </select>
 
+            <label for="first-entry-time">First Entry Time:</label>
+            <input type="time" id="first-entry-time" name="FirstEntryTime">
+
+            <label for="first-exit-time">First Exit Time:</label>
+            <input type="time" id="first-exit-time" name="FirstExitTime">
+
+            <label for="second-entry-time">Second Entry Time:</label>
+            <input type="time" id="second-entry-time" name="SecondEntryTime">
+
+            <label for="second-exit-time">Second Exit Time:</label>
+            <input type="time" id="second-exit-time" name="SecondExitTime">
+
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -182,7 +194,6 @@
                 if (code) {
                     try {
                         const data = JSON.parse(code.data);
-                        console.log(data); // تحقق من البيانات المستخرجة
                         vehicleIdSpan.textContent = data.VehicleID;
                         sectionNoSpan.textContent = data.Section_No;
                         vehicleIdInput.value = data.VehicleID;
