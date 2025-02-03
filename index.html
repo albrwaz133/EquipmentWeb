@@ -17,7 +17,7 @@
         }
 
         .container {
-            flex-grow: 1; /* تأكد من أن المحتوى يأخذ المساحة المتبقية */
+            flex-grow: 1;
             width: 90%;
             max-width: 800px;
             margin: 20px auto;
@@ -46,12 +46,12 @@
             background-color: #e0f2f1;
             border: 1px solid #00796b;
             border-radius: 8px;
-            display: none;
+            display: none; /* مخفي في البداية */
         }
 
-            #qr-result p {
-                margin: 5px 0;
-            }
+        #qr-result p {
+            margin: 5px 0;
+        }
 
         /* Form Styling */
         form {
@@ -82,31 +82,31 @@
             transition: background-color 0.3s ease;
         }
 
-            button:hover {
-                background-color: #004d40;
-            }
+        button:hover {
+            background-color: #004d40;
+        }
 
         /* Footer Styling */
         .footer {
             background-color: #00796b;
             color: #ffffff;
             text-align: center;
-            padding: 10px 0; /* تقليل المسافة الرأسية */
+            padding: 10px 0;
             font-size: 14px;
             border-top: 3px solid #004d40;
-            position: relative; /* جعل الفوتر في أسفل الصفحة بشكل طبيعي */
-            margin-top: auto; /* يجعل الفوتر يتحرك إلى الأسفل */
+            position: relative;
+            margin-top: auto;
         }
 
-            .footer a {
-                color: #b2dfdb;
-                text-decoration: none;
-            }
+        .footer a {
+            color: #b2dfdb;
+            text-decoration: none;
+        }
 
-                .footer a:hover {
-                    color: #ffffff;
-                    text-decoration: underline;
-                }
+        .footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -137,18 +137,6 @@
                 <option value="Evening">Evening</option>
             </select>
 
-            <label for="first-entry-time">First Entry Time:</label>
-            <input type="time" id="first-entry-time" name="FirstEntryTime">
-
-            <label for="first-exit-time">First Exit Time:</label>
-            <input type="time" id="first-exit-time" name="FirstExitTime">
-
-            <label for="second-entry-time">Second Entry Time:</label>
-            <input type="time" id="second-entry-time" name="SecondEntryTime">
-
-            <label for="second-exit-time">Second Exit Time:</label>
-            <input type="time" id="second-exit-time" name="SecondExitTime">
-
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -159,7 +147,6 @@
     </footer>
 
     <!-- QR Scanning Script -->
-    @*<script src="~/js/jsQR.js"></script>*@
     <script src="/js/jsQR.js"></script>
     <script>
         const video = document.getElementById('qr-video');
@@ -171,13 +158,16 @@
         const sectionNoInput = document.getElementById('section-no-input');
 
         // Request permission to access the camera
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        navigator.mediaDevices.getUser Media({ video: { facingMode: "environment" } })
             .then(stream => {
                 video.srcObject = stream;
                 video.play();
                 requestAnimationFrame(scanQRCode);
             })
-            .catch(err => console.error("Error accessing camera: ", err));
+            .catch(err => {
+                console.error("Error accessing camera: ", err);
+                alert("Unable to access the camera. Please check your permissions.");
+            });
 
         // QR Code Scanning Function
         function scanQRCode() {
@@ -190,12 +180,18 @@
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
 
                 if (code) {
-                    const data = JSON.parse(code.data);
-                    vehicleIdSpan.textContent = data.VehicleID;
-                    sectionNoSpan.textContent = data.Section_No;
-                    vehicleIdInput.value = data.VehicleID;
-                    sectionNoInput.value = data.Section_No;
-                    qrResult.style.display = 'block';
+                    try {
+                        const data = JSON.parse(code.data);
+                        console.log(data); // تحقق من البيانات المستخرجة
+                        vehicleIdSpan.textContent = data.VehicleID;
+                        sectionNoSpan.textContent = data.Section_No;
+                        vehicleIdInput.value = data.VehicleID;
+                        sectionNoInput.value = data.Section_No;
+                        qrResult.style.display = 'block'; // إظهار النتائج
+                    } catch (e) {
+                        console.error("Invalid QR code data: ", e);
+                        alert("The scanned QR code is not valid.");
+                    }
                 }
             }
             requestAnimationFrame(scanQRCode);
