@@ -137,18 +137,6 @@
                 <option value="Evening">Evening</option>
             </select>
 
-            <label for="first-entry-time">First Entry Time:</label>
-            <input type="time" id="first-entry-time" name="FirstEntryTime">
-
-            <label for="first-exit-time">First Exit Time:</label>
-            <input type="time" id="first-exit-time" name="FirstExitTime">
-
-            <label for="second-entry-time">Second Entry Time:</label>
-            <input type="time" id="second-entry-time" name="SecondEntryTime">
-
-            <label for="second-exit-time">Second Exit Time:</label>
-            <input type="time" id="second-exit-time" name="SecondExitTime">
-
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -192,12 +180,18 @@
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
 
                 if (code) {
-                    const data = JSON.parse(code.data);
-                    vehicleIdSpan.textContent = data.VehicleID;
-                    sectionNoSpan.textContent = data.Section_No;
-                    vehicleIdInput.value = data.VehicleID;
-                    sectionNoInput.value = data.Section_No;
-                    qrResult.style.display = 'block';
+                    try {
+                        const data = JSON.parse(code.data);
+                        console.log(data); // تحقق من البيانات المستخرجة
+                        vehicleIdSpan.textContent = data.VehicleID;
+                        sectionNoSpan.textContent = data.Section_No;
+                        vehicleIdInput.value = data.VehicleID;
+                        sectionNoInput.value = data.Section_No;
+                        qrResult.style.display = 'block'; // إظهار النتائج
+                    } catch (e) {
+                        console.error("Invalid QR code data: ", e);
+                        alert("The scanned QR code is not valid.");
+                    }
                 }
             }
             requestAnimationFrame(scanQRCode);
